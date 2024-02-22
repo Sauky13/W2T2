@@ -40,22 +40,23 @@ export default {
   justify-content: center;
 }
 .btn-add-basket{
-  width: 150px;
-  height: 40px;
-  border-radius: 30px;
-  color: white;
-  background-color: #5e5296;
-  border: 2px solid #333;
+  width: 250px;
+  height: 30px;
+  border-radius: 20px;
+  color: #6dbb8d;
+  border: 2px solid #6dbb8d;
+  font-weight: 600;
 }
 
 .product-list {
   flex-basis: calc(33.33% - 20px);
-  background-color: #d5baff;
+  background-color: #ffffff;
+  border: 3px solid #e2e2e2;
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 50px;
-  max-width: 400px;
+  max-width: 300px;
 }
 
 .product-item {
@@ -69,7 +70,7 @@ export default {
 
 .product-info {
   font-size: 16px;
-  color: #666;
+  color: #818181;
   
 }
 </style>

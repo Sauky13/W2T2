@@ -1,14 +1,15 @@
 <template>
   <nav>
-    <div>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/basket">Корзина</router-link>|
+    <div class="navigation">
+      <router-link to="/">Home</router-link> 
+      <router-link to="/basket">Корзина</router-link>
       <router-link to="/order">Оформленные товары</router-link>
+      <div class="navigation-auth">
+        <router-link to="/login">Авторизация</router-link> 
+        <router-link to="/register">Регистрация</router-link> 
+      </div>
     </div>
-    <div>
-      <router-link to="/login">Авторизация</router-link> |
-      <router-link to="/register">Регистрация</router-link> 
-    </div>
+    
     
   </nav>
   <router-view/>
@@ -23,16 +24,35 @@
   color: #2c3e50;
 }
 
+body {
+ padding: 0 0px;
+ width: auto;
+ margin: 0 auto;
+}
+
+.navigation{
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+
+}
+.navigation-auth{
+  display: flex;
+  gap: 10px;
+}
+
 nav {
   padding: 30px;
+  background-color: rgb(236, 236, 236) ;
+  margin-bottom: 20px;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #525252;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #6bc272;
 }
 </style>
