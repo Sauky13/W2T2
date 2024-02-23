@@ -1,3 +1,14 @@
+<script>
+import store from "@/store";
+export default {
+  computed: {
+    store() {
+      return store
+    }
+  }
+}
+</script>
+
 <template>
   <section>
     <div v-if="store.state.user_token === null">
@@ -14,20 +25,9 @@
   </section>
 </template>
 
-<script>
-import store from "@/store";
-export default {
-  computed: {
-    store() {
-      return store
-    }
-  }
-}
-</script>
 
 
-
-<style scoped>
+<style>
 body {
   font-family: Arial, sans-serif;
   font-size: 16px;

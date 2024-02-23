@@ -1,16 +1,3 @@
-<template>
-  <div class="catalog">
-    <section v-for="product in this.$store.state.catalog" :key="product.id" class="product-list">
-      <div class="product-item">
-        <h2 class="product-name">{{ product.name }}</h2>
-        <p class="product-info">{{ product.price }} руб</p>
-        <p class="product-info">{{ product.description }}</p>
-        <button class="btn-add-basket">Добавить в корзину</button>
-      </div>
-    </section>
-  </div>
-</template>
-
 <script>
 import store from "@/store";
 export default {
@@ -19,11 +6,30 @@ export default {
       return store
     }
   },
+  methods: {
+    addProductToBasket(product) {
+      this.$store.commit('addProductToBasket', product);
+    }
+  },
   mounted() {
     this.$store.commit('mounted');
   },
 }
 </script>
+
+<template>
+  <div class="catalog">
+    <section v-for="product in this.$store.state.catalog" :key="product.id" class="product-list">
+      <div class="product-item">
+        <h2 class="product-name">{{ product.name }}</h2>
+        <p class="product-info">{{ product.description }}</p>
+        <p class="product-info">{{ product.price }} руб</p>
+        <button class="btn-add-basket" @click="addProductToBasket(product)"
+          v-show="store.state.user_token !== null">Добавить в корзину</button>
+      </div>
+    </section>
+  </div>
+</template>
 
 <style>
 .catalog {
@@ -41,6 +47,11 @@ export default {
   color: #6dbb8d;
   border: 2px solid #6dbb8d;
   font-weight: 600;
+  transition: transform 0.3s ease;
+}
+
+.btn-add-basket:active {
+  transform: scale(0.95);
 }
 
 .product-list {

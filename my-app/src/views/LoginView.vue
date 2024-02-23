@@ -1,3 +1,14 @@
+<script>
+import store from "@/store";
+export default {
+  computed: {
+    store() {
+      return store
+    }
+  }
+}
+</script>
+
 <template>
   <section>
     <div>
@@ -21,17 +32,6 @@
   </section>
 </template>
 
-
-<script>
-import store from "@/store";
-export default {
-  computed: {
-    store() {
-      return store
-    }
-  }
-}
-</script>
 
 <style scoped>
 body {

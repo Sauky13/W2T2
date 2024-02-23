@@ -1,20 +1,3 @@
-<template>
-  <nav>
-    <div class="navigation">
-      <router-link to="/">Home</router-link>
-      <router-link to="/basket">Корзина</router-link>
-      <router-link to="/order">Оформленные товары</router-link>
-      <div class="navigation-auth">
-        <router-link to="/login" v-show="store.state.user_token === null">Авторизация</router-link>
-        <router-link to="/register" v-show="store.state.user_token === null">Регистрация</router-link>
-        <router-link to="/" @click="store.commit('logout')" v-show="store.state.user_token !== null">Выход</router-link>
-      </div>
-    </div>
-  </nav>
-  <router-view />
-</template>
-
-
 <script>
 import store from "@/store";
 export default {
@@ -36,6 +19,23 @@ export default {
 </script>
 
 
+<template>
+  <nav>
+    <div class="navigation">
+      <router-link to="/">Home</router-link>
+      <router-link to="/basket" v-show="store.state.user_token !== null" >Корзина</router-link>
+      <router-link to="/order" v-show="store.state.user_token !== null">Оформленные товары</router-link>
+      <div class="navigation-auth">
+        <router-link to="/login" v-show="store.state.user_token === null">Авторизация</router-link>
+        <router-link to="/register" v-show="store.state.user_token === null">Регистрация</router-link>
+        <router-link to="/" @click="store.commit('logout')" v-show="store.state.user_token !== null">Выход</router-link>
+      </div>
+    </div>
+  </nav>
+  <router-view />
+</template>
+
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -49,6 +49,7 @@ body {
   padding: 0 0px;
   width: auto;
   margin: 0 auto;
+  
 }
 
 .navigation {
