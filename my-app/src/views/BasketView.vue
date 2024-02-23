@@ -20,10 +20,9 @@ export default {
     <h2 v-show="store.state.basketCart && store.state.basketCart.length !== 0">Товары в корзине:</h2>
     <div class="cart">
         <div v-show="store.state.basketCart && store.state.basketCart.length === 0">
-            <h2 class="msg">На данный момент товары в корзине отсутствуют</h2>
+            <h2>Товары в корзине отсутствуют</h2>
         </div>
         <div class="item" v-for="(item, index) in store.state.basketCart" :key="item.id" v-if="store.state.basketCart">
-            <p>{{ item }}</p>
             <p>{{ item.name }}</p>
             <p>{{ item.description }}</p>
             <p>{{ item.price }} руб</p>
@@ -36,8 +35,7 @@ export default {
         </div>
     </div>
     <div class="cart-header">
-        <a href="#" class="cartButton" v-show="store.state.basketCart && store.state.basketCart.length > 0">Оформить
-            заказ</a>
+        <a href="#" class="cartButton" v-show=" store.state.basketCart.length > 0" @click="store.commit('createOrder')">Оформить заказ</a>
     </div>
 </template>
 

@@ -10,35 +10,60 @@ export default createStore({
     user_token: null,
     isAuthenticated: false,
     basketCart: [],
-    
-    
+    Orders: [],
+
   },
   getters: {
+
   },
   mutations: {
-    // добавление товара в корзину
-    async addProductToBasket(state, product) {
-      let productInCart = state.basketCart.find(item => item.id === product.id);
-      if (productInCart) {
-        productInCart.quantity++;
-      } else {
-        state.basketCart.push({...product,quantity: 1});
-      }
+
+
+    async createOrder(state,) {
       try {
-        const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/cart/${product.id}`, {}, {
+        // Создаем новый заказ из текущей корзины
+        let newOrders = state.basketCart.map(item => ({ ...item }));
+        state.Orders.push(newOrders);
+        state.basketCart.splice(0, state.basketCart.length);
+        console.log(state.Orders);
+
+        // Отправляем запрос на сервер
+        const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/order`, state.Orders, {
           headers: {
             'Authorization': `Bearer ${state.user_token}`
           }
         });
         if (response.status === 201) {
-          console.log('Товар добавлен в корзину на сервере');
+          console.log('Order is processed:', response.data.data);
         } else {
-          console.error('Не удалось добавить товар в корзину на сервере.');
+          console.error('Unexpected response status:', response.status);
         }
       } catch (error) {
-        console.error('Ошибка отправки запроса на сервер:', error.response);
+        if (error.response && error.response.status === 422) {
+          console.error('Cart is empty:', error.response.data.error);
+        } else {
+          console.error('Error creating order:', error.message);
+        }
       }
     },
+
+    async loadOrder(state) {
+      try {
+        const response = await axios.get('https://jurapro.bhuser.ru/api-shop/order', {
+          headers: {
+            'Authorization': `Bearer ${state.user_token}`
+          }
+        });
+        console.log('Data received from server:', response.data);
+        state.Orders = response.data.data;
+        console.log(state.Orders);
+
+      } catch (error) {
+        console.error('Ошибка при получении заказов:', error.response);
+      }
+    },
+
+
 
     // получение товаров из корзины
     async loadBasketCart(state) {
@@ -57,6 +82,25 @@ export default createStore({
         console.error('Ошибка при получении товаров из корзины:', error.response);
       }
     },
+
+    // добавление товара в корзину
+    async addProductToBasket(state, product) {
+      try {
+        const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/cart/${product.id}`, {}, {
+          headers: {
+            'Authorization': `Bearer ${state.user_token}`
+          }
+        });
+        if (response.status === 201) {
+          console.log('Товар добавлен в корзину на сервере');
+        } else {
+          console.error('Не удалось добавить товар в корзину на сервере.');
+        }
+      } catch (error) {
+        console.error('Ошибка отправки запроса на сервер:', error.response);
+      }
+    },
+
 
     // удаление товара из корзины  
     async deleteProductFromBasket(state, product) {
