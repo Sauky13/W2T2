@@ -46,7 +46,7 @@ export default createStore({
         }
       }
     },
-
+    // получение заказов с сервера 
     async loadOrder(state) {
       try {
         const response = await axios.get('https://jurapro.bhuser.ru/api-shop/order', {
@@ -62,7 +62,6 @@ export default createStore({
         console.error('Ошибка при получении заказов:', error.response);
       }
     },
-
 
 
     // получение товаров из корзины
