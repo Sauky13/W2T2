@@ -18,7 +18,7 @@ export default createStore({
   },
   mutations: {
 
-
+    // создание заказа
     async createOrder(state,) {
       try {
         // Создаем новый заказ из текущей корзины
@@ -85,20 +85,29 @@ export default createStore({
     // добавление товара в корзину
     async addProductToBasket(state, product) {
       try {
-        const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/cart/${product.id}`, {}, {
-          headers: {
-            'Authorization': `Bearer ${state.user_token}`
+          const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/cart/${product.id}`, {}, {
+              headers: {
+                  'Authorization': `Bearer ${state.user_token}`
+              }
+          });
+          if (response.status === 201) {
+              console.log('Товар добавлен в корзину на сервере');
+              // Проверяем, есть ли уже этот товар в корзине
+              const itemInCart = state.basketCart.find(item => item.id === product.id);
+              if (itemInCart) {
+                  // Если товар уже есть, увеличиваем его количество
+                  itemInCart.quantity++;
+              } else {
+                  // Если товара нет, добавляем его в корзину
+                  state.basketCart.push({ ...product, quantity: 1 });
+              }
+          } else {
+              console.error('Не удалось добавить товар в корзину на сервере.');
           }
-        });
-        if (response.status === 201) {
-          console.log('Товар добавлен в корзину на сервере');
-        } else {
-          console.error('Не удалось добавить товар в корзину на сервере.');
-        }
       } catch (error) {
-        console.error('Ошибка отправки запроса на сервер:', error.response);
+          console.error('Ошибка отправки запроса на сервер:', error.response);
       }
-    },
+  },
 
 
     // удаление товара из корзины  

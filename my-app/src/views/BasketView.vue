@@ -27,7 +27,7 @@ export default {
             <p>{{ item.description }}</p>
             <p>{{ item.price }} руб</p>
             <div class="quantityItem">
-                <button @click="store.commit('deleteProductFromBasket', item)" >-</button>
+                <button @click="store.commit('deleteProductFromBasket', item)">-</button>
                 <button @click="store.commit('addProductToBasket', item)">+</button>
                 <p>Количество: {{ item.quantity }}</p>
             </div>
