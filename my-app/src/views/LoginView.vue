@@ -1,18 +1,37 @@
-<script setup>
-
-</script>
-
 <template>
-    <section>
-        <div>
-            <form class="form" action="" method="post">
-                <input class="input" type="email" placeholder="Ваш e-mail">
-                <input class="input" type="password" placeholder="Пароль">
-                <button class="btn" type="submit">Войти</button>
-            </form>
-        </div>
-    </section>
+  <section>
+    <div>
+      <div v-if="store.state.user_token === null">
+        <form class="form" @submit.prevent="store.commit('login')">
+          <input class="input" type="email" v-model="store.state.email" placeholder="Ваш e-mail">
+          <input class="input" type="password" v-model="store.state.password" placeholder="Пароль">
+          <button class="btn" type="submit">Войти</button>
+        </form>
+      </div>
+      <div v-else>
+        <p>Вы уже вошли в систему</p>
+      </div>
+      <div v-show="store.state.user_token === null">
+        <p>Еще не зарегистрированы?</p>
+        <router-link to="/register">Зарегистрироваться</router-link>
+      </div>
+
+    </div>
+
+  </section>
 </template>
+
+
+<script>
+import store from "@/store";
+export default {
+  computed: {
+    store() {
+      return store
+    }
+  }
+}
+</script>
 
 <style scoped>
 body {
@@ -38,9 +57,9 @@ body {
   width: 100%;
   padding: 8px 10px;
   margin-bottom: 10px;
-  
+
   border: 1px solid #ccc;
-  
+
   font-family: inherit;
   font-size: 16px;
 }
@@ -49,11 +68,11 @@ body {
   display: block;
   width: 100%;
   padding: 8px 10px;
-  
+
   border: 0;
   background-color: #1cbc11;
   cursor: pointer;
-  
+
   font-family: inherit;
   font-size: 16px;
   color: #fff;
