@@ -26,7 +26,6 @@ export default createStore({
         let newOrders = state.basketCart.map(item => ({ ...item }));
         state.Orders.push(newOrders);
         state.basketCart.splice(0, state.basketCart.length);
-        console.log(state.Orders);
 
         // Отправляем запрос на сервер
         const response = await axios.post(`https://jurapro.bhuser.ru/api-shop/order`, state.Orders, {
@@ -57,7 +56,6 @@ export default createStore({
         });
         console.log('Data received from server:', response.data);
         state.Orders = response.data.data;
-        console.log(state.Orders);
 
       } catch (error) {
         console.error('Ошибка при получении заказов:', error.response);
@@ -142,12 +140,9 @@ export default createStore({
       try {
         const response = await axios.get('https://jurapro.bhuser.ru/api-shop/products');
         state.catalog = response.data.data;
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
-      console.log(state);
-
     },
 
     // регистрация
@@ -162,14 +157,12 @@ export default createStore({
         .then(function (response) {
           state.user_token = response.data.data.user_token;
           localStorage.token = state.user_token;
-          console.log('Вы успешно зарегистрировались');
           if (localStorage.token !== null && localStorage.token !== undefined) {
             window.location.href = "/login";
           }
         })
         .catch(error => {
           console.log(error)
-          console.log('Не получилось зарегистрироваться');
         })
     },
 
@@ -185,14 +178,12 @@ export default createStore({
         state.user_token = response.data.data.user_token;
         localStorage.token = state.user_token;
         state.isAuthenticated = true;
-        console.log('Вы успешно авторизовались');
         
         if (localStorage.token !== undefined && localStorage.token !== null) {
           window.location.href = "/";
         }
       } catch (error) {
         console.log(error);
-        console.log('Не получилось авторизоваться');
       }
     },
 

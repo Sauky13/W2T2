@@ -9,27 +9,37 @@ export default {
     },
     created() {
         this.$store.commit('loadOrder');
+        this.$store.commit('mounted');
     },
 }
 </script>
 
 <template>
-    <div>
-        <router-link to="/">Вернуться на главную</router-link>
-    </div>
-    <h2 v-show="store.state.Orders && store.state.Orders.length !== 0">Оформленные заказы:</h2>
-    <div class="orders">
-        <div v-show="store.state.Orders && store.state.Orders.length === 0">
-            <h2>У вас нет заказов!</h2>
+    <section>
+        <div>
+            <router-link to="/">Вернуться на главную</router-link>
         </div>
-        <div class="order" v-for="(order, index) in store.state.Orders" :key="order.id" v-if="store.state.Orders">
-            <p>Заказ №: {{ order.id }}</p>
-            <div class="products" v-for="product in order.products" :key="product">
-                <p>Товар ID: {{ product }}</p>
+        <h2 v-show="store.state.Orders && store.state.Orders.length !== 0">Оформленные заказы:</h2>
+        <div class="orders">
+            <div v-show="store.state.Orders && store.state.Orders.length === 0">
+                <h2>У вас нет заказов!</h2>
             </div>
-            <p>Цена заказа: {{ order.order_price }} руб</p>
+            <div class="order" v-for="(order, index) in store.state.Orders" :key="order.id" v-if="store.state.Orders">
+                <p>Заказ №: {{ order.id }}</p>
+                <div class="products" v-for="product in order.products" :key="product">
+                    <p>Товар ID: {{ product }}</p>
+                    <p v-if="product && store.state.catalog.find(p => p.id === product)">
+                        Название товара: {{ store.state.catalog.find(p => p.id === product).name }}
+                    </p>
+                    <p v-if="product && store.state.catalog.find(p => p.id === product)">
+                        Цена: {{ store.state.catalog.find(p => p.id === product).price }}
+                    </p>
+                    <p>Цена товара: </p>
+                </div>
+                <p>Цена заказа: {{ order.order_price }} руб</p>
+            </div>
         </div>
-    </div>
+    </section>
 </template>
 
 
@@ -60,28 +70,29 @@ export default {
 }
 
 .order p {
-  margin: 10px 0;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  font-weight: 600;
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
 }
 
 .order p {
-  margin: 10px 0;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
 }
 
 .products {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: row;
+    flex-direction: column;
     margin: 20px 0;
     padding: 20px;
     border-radius: 20px;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-content: center;
 }
 
 .products p {
@@ -94,9 +105,16 @@ export default {
 }
 
 @keyframes blink {
-    0% {opacity: 1;}
-    50% {opacity: 0.5;}
-    100% {opacity: 1;}
-}
+    0% {
+        opacity: 1;
+    }
 
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
 </style>
