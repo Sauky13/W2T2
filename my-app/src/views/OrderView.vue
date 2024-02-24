@@ -34,7 +34,6 @@ export default {
                     <p v-if="product && store.state.catalog.find(p => p.id === product)">
                         Цена: {{ store.state.catalog.find(p => p.id === product).price }}
                     </p>
-                    <p>Цена товара: </p>
                 </div>
                 <p>Цена заказа: {{ order.order_price }} руб</p>
             </div>

@@ -18,17 +18,20 @@ export default {
 </script>
 
 <template>
-  <div class="catalog">
-    <section v-for="product in this.$store.state.catalog" :key="product.id" class="product-list">
+  <section>
+    <div class="catalog">
+    <div v-for="product in $store.state.catalog" :key="product.id" class="product-list">
       <div class="product-item">
         <h2 class="product-name">{{ product.name }}</h2>
         <p class="product-info">{{ product.description }}</p>
         <p class="product-info">{{ product.price }} руб</p>
         <button class="btn-add-basket" @click="addProductToBasket(product)"
-          v-show="store.state.user_token !== null">Добавить в корзину</button>
+          v-show="$store.state.user_token !== null" :class="{ 'added': product.added }"
+          @animationend="product.added = false">Добавить в корзину</button>
       </div>
-    </section>
+    </div>
   </div>
+  </section>
 </template>
 
 <style>
@@ -47,11 +50,28 @@ export default {
   color: #6dbb8d;
   border: 2px solid #6dbb8d;
   font-weight: 600;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .btn-add-basket:active {
-  transform: scale(0.95);
+  transform: scale(1.30);
+}
+
+.btn-add-basket.added {
+  animation: pulse 0.3s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    background-color: #6dbb8d;
+    color: #ffffff;
+  }
+  100% {
+    transform: scale(1.05);
+    background-color: #ffffff;
+    color: #6dbb8d;
+  }
 }
 
 .product-list {
@@ -82,6 +102,5 @@ export default {
 .product-info {
   font-size: 16px;
   color: #818181;
-
 }
 </style>

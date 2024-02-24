@@ -54,7 +54,6 @@ export default createStore({
             'Authorization': `Bearer ${state.user_token}`
           }
         });
-        console.log('Data received from server:', response.data);
         state.Orders = response.data.data;
 
       } catch (error) {
@@ -90,8 +89,6 @@ export default createStore({
               }
           });
           if (response.status === 201) {
-              console.log('Товар добавлен в корзину на сервере');
-              // Проверяем, есть ли уже этот товар в корзине
               const itemInCart = state.basketCart.find(item => item.id === product.id);
               if (itemInCart) {
                   // Если товар уже есть, увеличиваем его количество
@@ -125,11 +122,6 @@ export default createStore({
             'Authorization': `Bearer ${state.user_token}`
           }
         });
-        if (response.status === 200) {
-          console.log('Товар удален из корзины на сервере');
-        } else {
-          console.error('Не удалось удалить товар из корзины на сервере.');
-        }
       } catch (error) {
         console.error('Ошибка отправки запроса на сервер:', error.response);
       }
