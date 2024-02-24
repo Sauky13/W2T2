@@ -35,7 +35,8 @@ export default {
         </div>
     </div>
     <div class="cart-header">
-        <a href="#" class="cartButton" v-show=" store.state.basketCart.length > 0" @click="store.commit('createOrder')">Оформить заказ</a>
+        <a href="#" class="cartButton" v-show="store.state.basketCart.length > 0"
+            @click="store.commit('createOrder')">Оформить заказ</a>
     </div>
 </template>
 

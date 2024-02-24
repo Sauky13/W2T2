@@ -12,6 +12,7 @@ export default createStore({
     basketCart: [],
     Orders: [],
 
+
   },
   getters: {
 
@@ -161,37 +162,37 @@ export default createStore({
         .then(function (response) {
           state.user_token = response.data.data.user_token;
           localStorage.token = state.user_token;
-          alert('Вы успешно зарегистрировались');
+          console.log('Вы успешно зарегистрировались');
           if (localStorage.token !== null && localStorage.token !== undefined) {
             window.location.href = "/login";
           }
         })
         .catch(error => {
           console.log(error)
-          alert('Не получилось зарегистрироваться. Попробуйте еще раз!');
+          console.log('Не получилось зарегистрироваться');
         })
     },
 
     // авторизация
     async login(state) {
-
       let UserState = {
         email: state.email,
         password: state.password
       }
-      const data = await axios.post('https://jurapro.bhuser.ru/api-shop/login', UserState)
-        .then(function (response) {
-          state.user_token = response.data.data.user_token;
-          localStorage.token = state.user_token;
-          state.isAuthenticated = true;
-          alert('Вы успешно авторизовались');
-        })
-        .catch(error => {
-          console.log(error)
-          alert('Не получилось авторизоваться. Попробуйте еще раз!');
-        })
-      if (localStorage.token !== undefined && localStorage.token !== null) {
-        window.location.href = "/";
+      try {
+        const response = await axios.post('https://jurapro.bhuser.ru/api-shop/login', UserState);
+        
+        state.user_token = response.data.data.user_token;
+        localStorage.token = state.user_token;
+        state.isAuthenticated = true;
+        console.log('Вы успешно авторизовались');
+        
+        if (localStorage.token !== undefined && localStorage.token !== null) {
+          window.location.href = "/";
+        }
+      } catch (error) {
+        console.log(error);
+        console.log('Не получилось авторизоваться');
       }
     },
 

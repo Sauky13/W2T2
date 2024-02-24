@@ -26,9 +26,7 @@ export default {
         <p>Еще не зарегистрированы?</p>
         <router-link to="/register">Зарегистрироваться</router-link>
       </div>
-
     </div>
-
   </section>
 </template>
 
